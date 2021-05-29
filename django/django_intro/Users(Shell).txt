@@ -1,0 +1,63 @@
+(djangoPy3Env) PS C:\Users\rcxcr\Desktop\School\Homework\python_stack\django\django_intro\single_model_orm> python manage.py shell
+Python 3.9.4 (tags/v3.9.4:1f2e308, Apr  6 2021, 13:40:21) [MSC v.1928 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from users_app.models import *
+>>> user.objects.all()
+<QuerySet []>
+>>> user.objects.create(first_name="Bryce", last_name="Vargo", email_address="bryce.vargo
+  File "<console>", line 1
+    user.objects.create(first_name="Bryce", last_name="Vargo", email_address="bryce.vargo
+                                                                                         ^
+SyntaxError: EOL while scanning string literal
+>>> user.objects.create(first_name="Bryce", last_name="Vargo", email_address="bryce.vargo@gmail.com", age=30)
+User - First Name: Bryce, Last Name: Vargo, Email: bryce.vargo@gmail.com, Age: 30, ID: (1)
+>>> user.objects.all()
+<QuerySet [User - First Name: Bryce, Last Name: Vargo, Email: bryce.vargo@gmail.com, Age: 30, ID: (1)]>
+>>> user.objects.create(first_name="Jane", last_name="Doe", email_address="jane.doe@gmail.com", age=69)
+User - First Name: Jane, Last Name: Doe, Email: jane.doe@gmail.com, Age: 69, ID: (2)
+>>> user.objects.all()
+<QuerySet [User - First Name: Bryce, Last Name: Vargo, Email: bryce.vargo@gmail.com, Age: 30, ID: (1), User - First Name: Jane, Last Name: Doe, Email: jane.doe@gmail.com, Age: 69, ID: (2)]>
+>>> user.objects.create(first_name="Billy", last_name="Bob", email_address="yeehawwwcowboy@yahoo.com", age=18)
+User - First Name: Billy, Last Name: Bob, Email: yeehawwwcowboy@yahoo.com, Age: 18, ID: (3)
+>>> user.objects.all()
+<QuerySet [User - First Name: Bryce, Last Name: Vargo, Email: bryce.vargo@gmail.com, Age: 30, ID: (1), User - First Name: Jane, Last Name: Doe, Email: jane.doe@gmail.com, Age: 69, ID: (2), User - First Name: Billy, Last Name: Bob, Email: yeehawwwcowboy@yahoo.com, Age: 18, ID: (3)]>
+>>> print(user.objects.last())
+user object (3)
+>>> last_user = user.objects.last()
+>>> user.objects.last_user
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Manager' object has no attribute 'last_user'
+>>> last_user.__dict__
+{'_state': <django.db.models.base.ModelState object at 0x0000026A8C26E790>, 'id': 3, 'first_name': 'Billy', 'last_name': 'Bob', 'email_address': 'yeehawwwcowboy@yahoo.com', 'age': 18, 'created_at': datetime.datetime(2021, 5, 28, 18, 34, 21, 265618, tzinfo=<UTC>), 'updated_at': datetime.datetime(2021, 5, 28, 18, 34, 21, 265618, tzinfo=<UTC>)}
+>>> first_user = user.objects.first()
+>>> first_user.__dict__
+{'_state': <django.db.models.base.ModelState object at 0x0000026A8C26EBB0>, 'id': 1, 'first_name': 'Bryce', 'last_name': 'Vargo', 'email_address': 'bryce.vargo@gmail.com', 'age': 30, 'created_at': datetime.datetime(2021, 5, 28, 18, 30, 37, 297381, tzinfo=<UTC>), 'updated_at': datetime.datetime(2021, 5, 28, 18, 30, 37, 297381, tzinfo=<UTC>)}
+>>> last_user.last_name = "Pancakes"
+>>> last_user.__dict__
+{'_state': <django.db.models.base.ModelState object at 0x0000026A8C26E790>, 'id': 3, 'first_name': 'Billy', 'last_name': 'Pancakes', 'email_address': 'yeehawwwcowboy@yahoo.com', 'age': 18, 'created_at': datetime.datetime(2021, 5, 28, 18, 34, 21, 265618, tzinfo=<UTC>), 'updated_at': datetime.datetime(2021, 5, 28, 18, 34, 21, 265618, tzinfo=<UTC>)}
+>>> user_two = user.objects.get(id=2)
+>>> user_two.__dict__
+{'_state': <django.db.models.base.ModelState object at 0x0000026A8C26ECD0>, 'id': 2, 'first_name': 'Jane', 'last_name': 'Doe', 'email_address': 'jane.doe@gmail.com', 'age': 69, 'created_at': datetime.datetime(2021, 5, 28, 18, 32, 57, 473285, tzinfo=<UTC>), 'updated_at': datetime.datetime(2021, 5, 28, 18, 32, 57, 473285, tzinfo=<UTC>)}
+>>> user_two.delete()
+(1, {'users_app.user': 1})
+>>> user.objects.all()
+<QuerySet [User - First Name: Bryce, Last Name: Vargo, Email: bryce.vargo@gmail.com, Age: 30, ID: (1), User - First Name: Billy, Last Name: Bob, Email: yeehawwwcowboy@yahoo.com, Age: 18, ID: (3)]>
+>>> user.objects.all(first_name)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'first_name' is not defined
+>>> all_users = user.objects.all()
+>>> for n in all_users:
+... print(n.first_name)
+  File "<console>", line 2
+    print(n.first_name)
+    ^
+IndentationError: expected an indented block
+>>> for n in all_users:
+...     print(n.first_name)
+...
+Bryce
+Billy
+>>>

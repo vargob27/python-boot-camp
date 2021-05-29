@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#container {
+    margin: 0 auto;
+    background-color: darkgray;
+    width: 970px;
+}
+.location {
+    display: inline-flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-evenly;
+    border: 3px solid black;
+    height: 200px;
+    width: 200px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+
+}
+#activities {
+    border: 3px solid black;
+    width: 964px;
+    margin-top: 10px;
+    height: 500px;
+    overflow: auto;
+}
+.green { 
+    color: green;
+}
+.red {
+    color: red;
+}
+input {
+    align-self: center;
+    width: 75px;
+    height: 50px;
+}
+#money {
+    color: royalblue;
+    font-weight: bolder;
+    padding-top: 10px;
+}
