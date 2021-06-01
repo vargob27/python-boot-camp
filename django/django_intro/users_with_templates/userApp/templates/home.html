@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users with Templates</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %">
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in all_users %}
+                <tr>
+                    <td>{{User.objects.id}}</td>
+                    <td>{{User.objects.firstName}} {{User.objects.lastName}}</td>
+                    <td>{{User.objects.email}}</td>
+                    <td>{{User.objects.age}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h1>Add a User</h1>
+        <form action="/add" method="POST">
+            <fieldset>
+                {% csrf_token %}
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email">
+                <label for="age">Age</label>
+                <input type="text" id="age" name="age">
+                <input type="submit" value="Add">
+            </fieldset>
+        </form>
+    </div>
+</body>
+
+</html>
