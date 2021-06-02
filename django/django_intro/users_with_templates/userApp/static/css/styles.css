@@ -1,4 +1,21 @@
 * {
     padding: 0px;
     margin: 0px;
+    background-color: coral;
+}
+#wrapper {
+    padding-top: 15px;
+    padding-left: 15px;
+}
+h1 {
+    color:darkslategray;
+}
+#add {
+    width: 100px;
+    background-color: whitesmoke;
+    margin-left: 175px;
+    margin-top: 5px;
+}
+form {
+    color: white;
 }
