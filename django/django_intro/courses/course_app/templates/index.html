@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Courses</title>
+</head>
+
+<body>
+    <h1>Add a new Course</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="/courses/create" method="POST">
+        {% csrf_token %}
+        <label>Name: <input type="text" required name="course_name"></label>
+        <label>Description: <input type="text" required name="description"></label>
+        <input type="submit" value="Add">
+
+    </form>
+
+    <h1>Courses</h1>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Description</th>
+                <th>Date Added</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in all_courses %}
+            <tr>
+                <td>{{course.name}}</td>
+                <td>{{course.description}}</td>
+                <td>{{course.created_at}}</td>
+                <td><a href="/courses/destroy/{{course.id}}">Remove</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
