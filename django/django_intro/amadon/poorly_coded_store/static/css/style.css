@@ -1,0 +1,14 @@
+body {
+    background-color: rgb(125, 127, 136);
+}
+form {
+    margin: 0 40px;
+}
+.tfont {
+    color: rgb(60, 204, 35);
+    font-size: larger;
+}
+.tprice {
+    color: rgb(204, 35, 35);
+    font-size: larger;
+}
