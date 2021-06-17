@@ -43,6 +43,7 @@ class UserManager(models.Manager):
             errors['password'] = "Enter 8 character password"
         elif bcrypt.checkpw(post_data['password'].encode(), existing_user[0].password.encode()) != True:
             errors['nonmatch'] = "Email and password do not match"
+        return errors
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)

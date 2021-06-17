@@ -3,11 +3,9 @@ from django.contrib import messages
 from .models import *
 import bcrypt
 
-
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
-
 
 def success(request):
     if 'user_id' not in request.session:
@@ -15,10 +13,9 @@ def success(request):
     this_user = User.objects.filter(id=request.session['user_id'])
     context = {
         'user': this_user[0],
-        'wall_mesasges': Wall_Message.objects.all()
+        'wall_messages': Wall_Message.objects.all()
     }
     return render(request, 'success.html', context)
-
 
 def register(request):
     if request.method == 'POST':
@@ -40,7 +37,6 @@ def register(request):
         return redirect('/success')
     return redirect('/')
 
-
 def login(request):
     if request.method == "POST":
         errors = User.objects.login_validator(request.POST)
@@ -57,8 +53,12 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
+def post(request):
+    Wall_Message.objects.create(message=request.POST['post'], poster=User.objects.get(id=request.session['user_id']))
+    return redirect('/success')
+
 def comment(request, post_id):
-    poster = User.objects.get(id=request.session['id'])
+    poster = User.objects.get(id=request.session['user_id'])
     message = Wall_Message.objects.get(id=post_id)
     Comment.objects.create(comment=request.POST['comment'], poster = poster, wall_message = message)
     return redirect('/success')
@@ -72,6 +72,6 @@ def profile(request, user_id):
 
 def add_like(request, id):
     liked_message = Wall_Message.objects.get(id=id)
-    user_liking = User.objects.get(id=request.session['id'])
+    user_liking = User.objects.get(id=request.session['user_id'])
     liked_message.user_likes.add(user_liking)
     return redirect('/success')
