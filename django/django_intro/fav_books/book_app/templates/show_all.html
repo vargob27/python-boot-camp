@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Favorite Books</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <span class="navbar-text">
+                        Welcome, {{request.session.greeting}}
+                    </span>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="/books">All Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-5">
+                <h3>Add Book</h3>
+                <form action="/books/create" method="post">
+                    {% csrf_token %}
+                    {% for message in messages %}
+                    <p class="text-danger small">{{ message }}</p>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" name="description">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="col-5 offset-2">
+                <h3>Favorited Books</h3>
+                {% for book in all_books %}
+                {% if this_user in book.favorited_by.all %}
+                <div class="container">
+                    <h5><a href="/books/{{book.id}}">{{book.title}}</a></h5>
+                    <p>(added by {{book.creator.first_name}} {{book.creator.last_name}})</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <h3>Other Books</h3>
+                {% for book in all_books %}
+                {% if this_user not in book.favorited_by.all %}
+                <div class="container">
+                    <h5><a href="/books/{{book.id}}">{{book.title}}</a></h5>
+                    <p>(added by {{book.creator.first_name}} {{book.creator.last_name}})</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div>
+                {% for book in all_books %}
+                <ul>
+                    <li>
+                        {{book.title}}
+                    </li>
+                    {% if this_user.id == book.creator.id  %}
+                <a href="#">DELETE</a>
+                {% endif %}
+                </ul>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+nav {
+    margin-bottom: 50px;
+}
+.nav-item {
+    margin-left: 10px;
+}
+.navbar-text {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+body {
+    background-color: rgb(73, 114, 114);
+}
+input {
+    margin-bottom: 5px;
+}
