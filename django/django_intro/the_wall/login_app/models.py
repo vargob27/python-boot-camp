@@ -6,6 +6,8 @@ import bcrypt
 
 
 # Create your models here.
+EMAIL_REGEX = re.compile('^[_a-z0-9-]+(.[_a-z0-9-]+)@[a-z0-9-]+(.[a-z0-9-]+)(.[a-z]{2,4})$')
+
 class UserManager(models.Manager):
     def registration_validator(self, post_data):
         errors = {}
@@ -17,10 +19,10 @@ class UserManager(models.Manager):
         if len(post_data['last_name']) < 2:
             errors['last_name'] = "Last name must be 2 characters or more"
         # email matches format
-        email_regex = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-z]+$')
+        # email_regex = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-z]+$')
         if len(post_data['email'])==0:
             errors['email'] = "You must enter an email"
-        elif not email_regex.match(post_data['email']):
+        if not EMAIL_REGEX.match(post_data['email']):
             errors['email'] = "Must be a valid email"
         # email is unique
         current_users = User.objects.filter(email = post_data['email'])
@@ -41,6 +43,8 @@ class UserManager(models.Manager):
             errors['email'] = "Enter email"
         if len(post_data['password']) < 8:
             errors['password'] = "Enter 8 character password"
+        if not EMAIL_REGEX.match(post_data['email']):
+            errors['email'] = "Must be a valid email"
         elif bcrypt.checkpw(post_data['password'].encode(), existing_user[0].password.encode()) != True:
             errors['nonmatch'] = "Email and password do not match"
         return errors

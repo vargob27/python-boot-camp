@@ -29,6 +29,8 @@ class UserManager(models.Manager):
         check = User.objects.filter(email=postData['login_email'])
         if not check:
             errors['login_email'] = "Email has not been registered."
+        elif not EMAIL_REGEX.match(postData['email']):
+            errors['reg_email'] = "Please enter a valid email address."
         else:
             if not bcrypt.checkpw(postData['login_password'].encode(), check[0].password.encode()):
                 errors['login_email'] = "Email and password do not match."
