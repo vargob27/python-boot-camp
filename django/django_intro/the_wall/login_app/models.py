@@ -57,13 +57,19 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+    def __str__(self):
+        return '%s %s' % (self.first_name, self.last_name)
 
 class Wall_Message(models.Model):
     message = models.CharField(max_length=255)
     poster = models.ForeignKey(User, related_name='user_messages', on_delete=models.CASCADE)
     user_likes = models.ManyToManyField(User, related_name='liked_posts')
+    def __str__(self):
+        return self.message
 
 class Comment(models.Model):
     comment = models.CharField(max_length=255)
     poster = models.ForeignKey(User, related_name='user_comments', on_delete=models.CASCADE)
     wall_message = models.ForeignKey(Wall_Message, related_name='post_comments', on_delete=models.CASCADE)
+    def __str__(self):
+        return self.comment
