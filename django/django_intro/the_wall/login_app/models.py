@@ -39,6 +39,9 @@ class UserManager(models.Manager):
     def login_validator(self, post_data):
         errors = {}
         existing_user = User.objects.filter(email=post_data['email'])
+        if len(existing_user) == None:
+            errors['email'] = "Email not registered yet"
+            return errors
         if len(post_data['email']) == 0:
             errors['email'] = "Enter email"
         if len(post_data['password']) < 8:
